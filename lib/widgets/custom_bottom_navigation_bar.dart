@@ -6,11 +6,13 @@ class CustomFixedBottomNavigationBar extends StatefulWidget {
       required this.items,
       this.selectedItemColor,
       this.backgroundcolor,
-      this.unselectedItemColor});
+      this.unselectedItemColor,
+      required this.onItemTapped});
   final List<BottomNavigationBarItem> items;
   final Color? unselectedItemColor;
   final Color? selectedItemColor;
   final Color? backgroundcolor;
+  final Function(int) onItemTapped;
   @override
   State<CustomFixedBottomNavigationBar> createState() =>
       _CustomFixedBottomNavigationBarState();
@@ -19,10 +21,11 @@ class CustomFixedBottomNavigationBar extends StatefulWidget {
 class _CustomFixedBottomNavigationBarState
     extends State<CustomFixedBottomNavigationBar> {
   int selectedIndex = 0;
-  void onItemTapped(int index) {
+  void _onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
     });
+    widget.onItemTapped(index);
   }
 
   @override
@@ -34,7 +37,7 @@ class _CustomFixedBottomNavigationBarState
       currentIndex: selectedIndex,
       unselectedItemColor: widget.unselectedItemColor,
       selectedItemColor: widget.selectedItemColor,
-      onTap: onItemTapped,
+      onTap: _onItemTapped,
     );
   }
 }

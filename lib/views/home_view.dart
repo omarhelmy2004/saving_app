@@ -1,38 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:saving_app/widgets/custom_bottom_navigation_bar.dart';
+import 'package:saving_app/widgets/info_navigation_bar.dart';
+import 'package:saving_app/widgets/views_list_widget.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class MainView extends StatefulWidget {
+  const MainView({super.key});
+
+  @override
+  State<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> {
+  int selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CustomFixedBottomNavigationBar(
-        unselectedItemColor: Colors.grey[700],
-        selectedItemColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-        ],
-      ),
-    );
+        bottomNavigationBar: InfoBottomNavigationBar(
+          onItemTapped: _onItemTapped,
+        ),
+        body: ViewsListWidget(selectedIndex: selectedIndex));
   }
 }
+
+// Callback Flow: Child to Parent:
+
+// The callback mechanism is indeed from child to parent in terms of notifying an event. The child widget triggers a function defined in the parent. Here’s how it works:
+
+// Parent Widget (MainView): Defines a method to handle events (like an item tap) and passes it down to the child widget as a callback.
+// Child Widget (CustomFixedBottomNavigationBar): Invokes this callback function when an event occurs (e.g., an item is tapped).
+// Parent Reacts to Callback: The parent updates its state based on the callback, leading to a change in the UI.

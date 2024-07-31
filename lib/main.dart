@@ -14,7 +14,7 @@ class SavingApp extends StatelessWidget {
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       routes: {
-        'HomePage': (context) => const HomeView(),
+        'HomePage': (context) => const MainView(),
       },
       initialRoute: 'HomePage',
     );
