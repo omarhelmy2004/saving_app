@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saving_app/views/home_view.dart';
 
 void main() {
   runApp(const SavingApp());
@@ -9,8 +10,12 @@ class SavingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      routes: {
+        'HomePage': (context) => const HomeView(),
+      },
+      initialRoute: 'HomePage',
     );
   }
 }
