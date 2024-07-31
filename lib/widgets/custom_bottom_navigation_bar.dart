@@ -5,8 +5,10 @@ class CustomFixedBottomNavigationBar extends StatefulWidget {
       {super.key,
       required this.items,
       this.selectedItemColor,
-      this.backgroundcolor});
+      this.backgroundcolor,
+      this.unselectedItemColor});
   final List<BottomNavigationBarItem> items;
+  final Color? unselectedItemColor;
   final Color? selectedItemColor;
   final Color? backgroundcolor;
   @override
@@ -30,6 +32,7 @@ class _CustomFixedBottomNavigationBarState
       type: BottomNavigationBarType.fixed,
       backgroundColor: widget.backgroundcolor,
       currentIndex: selectedIndex,
+      unselectedItemColor: widget.unselectedItemColor,
       selectedItemColor: widget.selectedItemColor,
       onTap: onItemTapped,
     );

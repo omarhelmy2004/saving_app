@@ -6,9 +6,11 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       bottomNavigationBar: CustomFixedBottomNavigationBar(
-        items: [
+        unselectedItemColor: Colors.grey[700],
+        selectedItemColor: Colors.white,
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -30,7 +32,6 @@ class HomeView extends StatelessWidget {
             label: 'School',
           ),
         ],
-        selectedItemColor: Colors.black,
       ),
     );
   }
