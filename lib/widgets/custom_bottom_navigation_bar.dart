@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomFixedBottomNavigationBar extends StatefulWidget {
-  const CustomFixedBottomNavigationBar(
+class CustomBottomNavigationBar extends StatefulWidget {
+  const CustomBottomNavigationBar(
       {super.key,
       required this.items,
       this.selectedItemColor,
@@ -14,12 +14,11 @@ class CustomFixedBottomNavigationBar extends StatefulWidget {
   final Color? backgroundcolor;
   final Function(int) onItemTapped;
   @override
-  State<CustomFixedBottomNavigationBar> createState() =>
-      _CustomFixedBottomNavigationBarState();
+  State<CustomBottomNavigationBar> createState() =>
+      _CustomBottomNavigationBarState();
 }
 
-class _CustomFixedBottomNavigationBarState
-    extends State<CustomFixedBottomNavigationBar> {
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -30,15 +29,24 @@ class _CustomFixedBottomNavigationBarState
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: widget.items,
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: widget.backgroundcolor,
-      currentIndex: selectedIndex,
-      unselectedItemColor: widget.unselectedItemColor,
-      selectedItemColor: widget.selectedItemColor,
-      onTap: _onItemTapped,
+    return Theme(
+      data: Theme.of(context).copyWith(
+        splashColor: Colors.transparent, // No splash
+        highlightColor: Colors.transparent, // No highlight
+      ),
+      child: BottomNavigationBar(
+        showUnselectedLabels: false,
+        showSelectedLabels: true,
+        enableFeedback: false,
+        items: widget.items,
+        type: BottomNavigationBarType.shifting,
+        backgroundColor: widget.backgroundcolor,
+        currentIndex: selectedIndex,
+        unselectedItemColor: widget.unselectedItemColor,
+        selectedItemColor: widget.selectedItemColor,
+        onTap: _onItemTapped,
+        iconSize: 30,
+      ),
     );
   }
 }
-//Custom Bottom Navigation bar if i need to use it again before changing it
