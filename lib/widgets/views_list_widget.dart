@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saving_app/views/bottom_navigation_views.dart/home_view.dart';
 
 class ViewsListWidget extends StatelessWidget {
   const ViewsListWidget({super.key, required this.selectedIndex});
@@ -6,11 +7,11 @@ class ViewsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const <Widget>[
-      Center(child: Text('Home View')),
-      Center(child: Text('Business View')),
-      Center(child: Text('School View')),
-      Center(child: Text('Explore View')),
-      Center(child: Text('Settings View')),
+      HomeView(),
+      Center(child: Text('')),
+      Center(child: Text('')),
+      Center(child: Text('')),
+      Center(child: Text('')),
     ][selectedIndex];
   }
 }

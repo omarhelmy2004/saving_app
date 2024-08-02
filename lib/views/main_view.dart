@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saving_app/widgets/custom_app_bar.dart';
 import 'package:saving_app/widgets/info_navigation_bar.dart';
 import 'package:saving_app/widgets/views_list_widget.dart';
 
@@ -11,6 +12,20 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int selectedIndex = 0;
+  String pageNameOfSelectedIndex(int selectedIndex) {
+    if (selectedIndex == 0) {
+      return 'Home';
+    } else if (selectedIndex == 1) {
+      return 'Reports';
+    } else if (selectedIndex == 2) {
+      return 'Budget';
+    } else if (selectedIndex == 3) {
+      return 'Transactions';
+    } else {
+      return 'Goals';
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
@@ -20,6 +35,21 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: CustomAppBar(
+            text: pageNameOfSelectedIndex(selectedIndex),
+            icon1: const Icon(
+              Icons.account_circle_outlined,
+              size: 32,
+              color: Colors.white,
+            ),
+            icon2: const Icon(
+              Icons.settings,
+              size: 32,
+              color: Colors.white,
+            ),
+          ),
+        ),
         bottomNavigationBar: InfoBottomNavigationBar(
           onItemTapped: _onItemTapped,
         ),
