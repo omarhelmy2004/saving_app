@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saving_app/widgets/bold_text.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -7,7 +8,10 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        children: const [],
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        children: const [
+          BoldText(text: 'Total Balance', fontSize: 22,)
+        ],
       ),
     );
   }
