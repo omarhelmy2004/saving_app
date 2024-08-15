@@ -31,7 +31,7 @@ class BoxedCardCustom extends StatelessWidget {
            Divider(
 
             height: 30,
-          thickness: 2,
+          thickness: 1.5,
           indent: 16,
           endIndent: 16,
           color: Theme.of(context).colorScheme.secondary,
