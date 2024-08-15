@@ -15,25 +15,7 @@ class BigIconWithTextOnRight extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
              icon,
-            Positioned(
-              top: -5,
-              right: -5,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: const BoxDecoration(
-                  color: Colors.redAccent,
-                  shape: BoxShape.circle,
-                ),
-                child:  Text(
-                  circleText, 
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
+            
           ],
         ),
         const SizedBox(width: 8), 
@@ -43,9 +25,9 @@ class BigIconWithTextOnRight extends StatelessWidget {
           children: [
             Text(
               text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+              style:  TextStyle(
+             
+                fontSize: 22,
               ),
             ),
           
