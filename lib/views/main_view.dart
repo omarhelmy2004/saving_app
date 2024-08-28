@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saving_app/widgets/custom_app_bar.dart';
 import 'package:saving_app/widgets/info_navigation_bar.dart';
+
 import 'package:saving_app/widgets/views_list_widget.dart';
 
 class MainView extends StatefulWidget {
@@ -53,6 +54,7 @@ class _MainViewState extends State<MainView> {
         bottomNavigationBar: InfoBottomNavigationBar(
           onItemTapped: _onItemTapped,
         ),
+       
         body: ViewsListWidget(selectedIndex: selectedIndex));
   }
 }

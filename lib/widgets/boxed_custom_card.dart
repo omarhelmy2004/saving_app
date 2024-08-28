@@ -17,7 +17,7 @@ class BoxedCardCustom extends StatelessWidget {
       
       child: Container(
         
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 28),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
         child:  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

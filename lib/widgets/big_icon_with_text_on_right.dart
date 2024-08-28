@@ -25,8 +25,7 @@ class BigIconWithTextOnRight extends StatelessWidget {
           children: [
             Text(
               text,
-              style:  TextStyle(
-             
+              style:  const TextStyle(
                 fontSize: 22,
               ),
             ),

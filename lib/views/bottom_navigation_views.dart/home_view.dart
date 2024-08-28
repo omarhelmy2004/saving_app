@@ -4,12 +4,16 @@ import 'package:saving_app/widgets/bold_text.dart';
 import 'package:saving_app/widgets/boxed_custom_card.dart';
 import 'package:saving_app/widgets/list_view_padding.dart';
 
+import 'package:saving_app/widgets/spending_progress.dart';
+
+
+
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  const Scaffold(
+    return   const Scaffold(
       body: ListViewPadding(
         children: [
           BoldText(text: 'Total Balance', fontSize: 32,),
@@ -28,7 +32,13 @@ class HomeView extends StatelessWidget {
             ),
             circleText: 'USD',
             ),
-          ],)
+          ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 16),
+            child: BoldText(text: 'Spending breakdown',fontSize: 26,),
+          ),
+          SpendingProgressWidget(),
         ],
 
       ),
