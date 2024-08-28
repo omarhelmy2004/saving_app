@@ -5,9 +5,13 @@ class ListViewPadding extends StatelessWidget {
   final List<Widget> children;
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
-      children:  children,
+    return ScrollConfiguration(
+      behavior: const ScrollBehavior().copyWith(overscroll: false),
+      child: ListView(
+       
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
+        children:  children,
+      ),
     );
   }
 }
