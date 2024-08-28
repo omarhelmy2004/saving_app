@@ -5,6 +5,7 @@ import 'package:saving_app/widgets/boxed_custom_card.dart';
 import 'package:saving_app/widgets/list_view_padding.dart';
 
 import 'package:saving_app/widgets/spending_progress.dart';
+import 'package:saving_app/widgets/text_padding.dart';
 
 
 
@@ -34,11 +35,13 @@ class HomeView extends StatelessWidget {
             ),
           ],
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 16),
-            child: BoldText(text: 'Spending breakdown',fontSize: 26,),
+          TextPadding(
+            text: 'Spending breakdown',
           ),
           SpendingProgressWidget(),
+          TextPadding(
+            text: 'Recent Transactions',
+          ),
         ],
 
       ),
