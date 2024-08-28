@@ -8,7 +8,6 @@ class ListViewPadding extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollConfiguration(
       child: ListView(
-       
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
         children:  children,
       ),

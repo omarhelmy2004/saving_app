@@ -3,7 +3,6 @@ import 'package:saving_app/widgets/big_icon_with_text_on_right.dart';
 import 'package:saving_app/widgets/bold_text.dart';
 import 'package:saving_app/widgets/boxed_custom_card.dart';
 import 'package:saving_app/widgets/list_view_padding.dart';
-
 import 'package:saving_app/widgets/spending_progress.dart';
 import 'package:saving_app/widgets/text_padding.dart';
 
@@ -42,9 +41,20 @@ class HomeView extends StatelessWidget {
           TextPadding(
             text: 'Recent Transactions',
           ),
+          TransactionsWidget()
         ],
 
       ),
+    );
+  }
+}
+class TransactionsWidget extends StatelessWidget {
+  const TransactionsWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [],
     );
   }
 }
