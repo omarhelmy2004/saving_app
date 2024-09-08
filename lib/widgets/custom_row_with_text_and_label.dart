@@ -17,7 +17,7 @@ class CustomRowWithTextAndLabel extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
         CustomDoubleTextBoldTop(topText: topText, text: textLeft),
-        Text(textRight, style: TextStyle(fontSize: 20),),
+        Text(textRight, style: const TextStyle(fontSize: 20),),
        
       ],
       ),

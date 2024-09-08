@@ -12,7 +12,7 @@ class CustomDoubleTextBoldTop extends StatelessWidget {
     return  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(topText, style: TextStyle(fontSize: 21),),
+          Text(topText, style: const TextStyle(fontSize: 21),),
        
           Text(text, style:  TextStyle(color: bottomTextColor, fontSize: 16),),
         ],
