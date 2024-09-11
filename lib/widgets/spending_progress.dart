@@ -12,7 +12,6 @@ class SpendingProgressWidget extends StatelessWidget {
     return const CustomCard(widgets: [
        ThreeTextsSpendingVertical(topText: 'Spending', spending: '1,203', bottomText: 'Last 30 Days'),
       
-      
       SpendingProgress(title: 'Food', progress: 1),
           SizedBox(height: 10),
           SpendingProgress(title: 'Rent', progress: 0.7),
@@ -23,3 +22,4 @@ class SpendingProgressWidget extends StatelessWidget {
     ],);
   }
 }
+
