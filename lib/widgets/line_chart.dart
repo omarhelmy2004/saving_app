@@ -2,15 +2,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 
-class LineChartSample2 extends StatefulWidget {
-  const LineChartSample2({super.key, required this.lineColor, required this.mainChartsColor});
+class LineChartSample extends StatefulWidget {
+  const LineChartSample({super.key, required this.lineColor, required this.mainChartsColor});
   final Color lineColor;
   final Color mainChartsColor;
   @override
-  State<LineChartSample2> createState() => _LineChartSample2State();
+  State<LineChartSample> createState() => _LineChartSampleState();
 }
 
-class _LineChartSample2State extends State<LineChartSample2> {
+class _LineChartSampleState extends State<LineChartSample> {
   
   late List<Color> gradientColors;
   @override
@@ -34,8 +34,6 @@ void initState() {
           aspectRatio: 1.70,
           child: Padding(
             padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
               top: 24,
               bottom: 12,
             ),
@@ -44,24 +42,7 @@ void initState() {
             ),
           ),
         ),
-        SizedBox(
-          width: 60,
-          height: 34,
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                showAvg = !showAvg;
-              });
-            },
-            child: Text(
-              'avg',
-              style: TextStyle(
-                fontSize: 12,
-                color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-              ),
-            ),
-          ),
-        ),
+
       ],
     );
   }
@@ -72,16 +53,20 @@ void initState() {
       fontSize: 16,
     );
     Widget text;
-    switch (value.toInt()) {
-      case 2:
+    switch (value.toInt()) {     //bottom titles
+    case 1:
         text = const Text('MAR', style: style);
         break;
-      case 5:
+      case 4:
+        text = const Text('MAR', style: style);
+        break;
+      case 7:
         text = const Text('JUN', style: style);
         break;
-      case 8:
+      case 10:
         text = const Text('SEP', style: style);
         break;
+        
       default:
         text = const Text('', style: style);
         break;
@@ -99,7 +84,7 @@ void initState() {
       fontSize: 15,
     );
     String text;
-    switch (value.toInt()) {
+    switch (value.toInt()) { //left titles
       case 1:
         text = '10K';
         break;
@@ -119,8 +104,8 @@ void initState() {
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
+        show: false,
+        drawVerticalLine: false,
         horizontalInterval: 1,
         verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
@@ -157,12 +142,12 @@ void initState() {
             showTitles: true,
             interval: 1,
             getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
+            reservedSize: 35,
           ),
         ),
       ),
       borderData: FlBorderData(
-        show: true,
+        show: false,
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
@@ -181,10 +166,17 @@ void initState() {
             FlSpot(11, 4),
           ],
           isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
-          barWidth: 5,
+          curveSmoothness: .12,        //curve smoothness
+color: widget.lineColor, //line color
+
+
+          // gradient: LinearGradient(
+          //   colors: gradientColors,
+            
+          // ), // if uwant to make the line linearGradient
+
+
+          barWidth: 4,          //bar width
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: false,
@@ -192,16 +184,20 @@ void initState() {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
-            ),
+            colors: [
+              widget.lineColor.withOpacity(0.5),
+              widget.lineColor.withOpacity(0.25),   // Light color with opacity
+              widget.mainChartsColor.withOpacity(0.1),  // Transparent at the bottom
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
           ),
         ),
       ],
     );
   }
-
+  //not used i think
   LineChartData avgData() {
     return LineChartData(
       lineTouchData: const LineTouchData(enabled: false),
