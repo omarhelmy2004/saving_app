@@ -31,11 +31,11 @@ void initState() {
       children: <Widget>[
         
         AspectRatio(
-          aspectRatio: 1.70,
+          aspectRatio: 1.7,
           child: Padding(
             padding: const EdgeInsets.only(
-              top: 24,
-              bottom: 12,
+              
+              bottom: 15,
             ),
             child: LineChart(
               showAvg ? avgData() : mainData(),

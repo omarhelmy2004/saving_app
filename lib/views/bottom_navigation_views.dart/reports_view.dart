@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saving_app/constants/colors.dart';
 import 'package:saving_app/widgets/analysis_with_line_chart.dart';
-import 'package:saving_app/widgets/line_chart.dart';
 import 'package:saving_app/widgets/list_view_padding.dart';
 
 class ReportsView extends StatelessWidget {
@@ -11,7 +10,9 @@ class ReportsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return   ListViewPadding(
       children: [
-        AnalysisWithLineChart()
+        AnalysisWithLineChart(topText: 'Account Balance',spending: '1,200',bottomText: 'Last 30 Days',
+          lineColor: Colors.white,mainChartsColor: mainChartsColor,
+        )
         // LineChartSample(lineColor: Colors.white, mainChartsColor: mainChartsColor,)
     ],
     );

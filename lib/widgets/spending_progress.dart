@@ -10,7 +10,10 @@ class SpendingProgressWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CustomCard(widgets: [
-       ThreeTextsSpendingVertical(topText: 'Spending', spending: '1,203', bottomText: 'Last 30 Days'),
+       Padding(
+         padding: EdgeInsets.only(bottom: 5),
+         child: ThreeTextsSpendingVertical(topText: 'Spending', topTextFont: 21,spendingFont: 33, bottomTextFont:  16, spending: '1,203', bottomText: 'Last 30 Days'),
+       ),
       
       SpendingProgress(title: 'Food', progress: 1),
           SizedBox(height: 10),
