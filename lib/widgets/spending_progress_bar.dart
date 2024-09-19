@@ -36,7 +36,7 @@ class SpendingProgress extends StatelessWidget {
             Container(
               
               height: 20,
-              width: progress * MediaQuery.of(context).size.width * 0.5,
+              width: progress * MediaQuery.of(context).size.width * 0.47,
               decoration:  const BoxDecoration(
                 color:  Colors.white,
               ),
@@ -45,7 +45,7 @@ class SpendingProgress extends StatelessWidget {
             Container(
               
               height: 20,
-              width: progress * MediaQuery.of(context).size.width * 0.48,
+              width: progress * MediaQuery.of(context).size.width * 0.45,
               decoration:  BoxDecoration(
                 color: Colors.grey[800],
               ),

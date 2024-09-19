@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:saving_app/constants/colors.dart';
 import 'package:saving_app/widgets/analysis_with_line_chart.dart';
+import 'package:saving_app/widgets/bar_chart.dart';
 import 'package:saving_app/widgets/list_view_padding.dart';
+import 'package:saving_app/widgets/pie_chart.dart';
+
 
 class ReportsView extends StatelessWidget {
   const ReportsView({super.key});
@@ -12,8 +15,10 @@ class ReportsView extends StatelessWidget {
       children: [
         AnalysisWithLineChart(topText: 'Account Balance',spending: '1,200',bottomText: 'Last 30 Days',
           lineColor: Colors.white,mainChartsColor: mainChartsColor,
-        )
-        // LineChartSample(lineColor: Colors.white, mainChartsColor: mainChartsColor,)
+        ),
+         const PieChartSample2(),
+        const BarChartSample2()
+       
     ],
     );
   }
