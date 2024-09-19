@@ -14,8 +14,8 @@ class CustomPieChart extends StatefulWidget {
     required this.colors,
     required this.sectionTexts,
     required this.sectionValues,
-    this.centerSpaceRadius = 50.0,
-    this.radius = 60.0,
+    this.centerSpaceRadius = 60.0,
+    this.radius = 50.0,
   });
 
   @override
@@ -27,56 +27,57 @@ class _CustomPieChartState extends State<CustomPieChart> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.5,
-      child: Row(
-        children: <Widget>[
-          const SizedBox(height: 18),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
-                      });
-                    },
-                  ),
-                  borderData: FlBorderData(show: false),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: widget.centerSpaceRadius,
-                  sections: showingSections(),
-                ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        AspectRatio(
+          aspectRatio: 1.5,
+          child: PieChart(
+            PieChartData(
+              pieTouchData: PieTouchData(
+                touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                  setState(() {
+                    if (!event.isInterestedForInteractions ||
+                        pieTouchResponse == null ||
+                        pieTouchResponse.touchedSection == null) {
+                      touchedIndex = -1;
+                      return;
+                    }
+                    touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                  });
+                },
               ),
+              borderData: FlBorderData(show: false),
+              sectionsSpace: 0,
+              centerSpaceRadius: widget.centerSpaceRadius,
+              sections: showingSections(),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Wrap(
+            spacing: 16.0,  // Horizontal space between indicators
+            runSpacing: 8.0, // Vertical space between rows of indicators
+            alignment: WrapAlignment.center,
             children: List.generate(widget.sectionTexts.length, (index) {
-              return Column(
+              return Row(
+                mainAxisSize: MainAxisSize.min, // Ensure it takes only needed width
                 children: [
                   Indicator(
                     color: widget.colors[index],
                     text: widget.sectionTexts[index],
                     isSquare: true,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(width: 8), // Space between indicator and text
                 ],
               );
             }),
           ),
-          const SizedBox(width: 28),
-        ],
-      ),
+        ),
+        const SizedBox(height: 16),
+      ],
     );
   }
 

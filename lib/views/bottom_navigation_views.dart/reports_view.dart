@@ -16,12 +16,12 @@ class ReportsView extends StatelessWidget {
         AnalysisWithLineChart(topText: 'Account Balance',spending: '1,200',bottomText: 'Last 30 Days',
           lineColor: Colors.white,mainChartsColor: mainChartsColor,
         ),
-         CustomPieChart(
-  colors: [Colors.blue, Colors.yellow, Colors.purple, Colors.green, Colors.red],
-  sectionTexts: ['First', 'Second', 'Third', 'Enteraiment', 'Fifth'],
-  sectionValues: [40, 30, 15, 10, 5],
-  centerSpaceRadius: 50.0,
-  radius: 60.0,
+         const CustomPieChart(
+        colors: [Colors.blue, Colors.yellow, Colors.purple, Colors.green, Colors.red],
+        sectionTexts: ['First', 'Second', 'Third', 'Enteraiment', 'Fifth'],
+         sectionValues: [40, 30, 15, 10, 5],
+         centerSpaceRadius: 50.0,
+           radius: 60.0,
 ),
 
         const BarChartSample2()
