@@ -17,7 +17,7 @@ class PieChart2State extends State {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.3,
+      aspectRatio: 1.5, //padding related maybe also sizes
       child: Row(
         children: <Widget>[
           const SizedBox(
@@ -46,7 +46,7 @@ class PieChart2State extends State {
                     show: false,
                   ),
                   sectionsSpace: 0,
-                  centerSpaceRadius: 40,
+                  centerSpaceRadius: 60, // circle size
                   sections: showingSections(),
                 ),
               ),
@@ -85,8 +85,13 @@ class PieChart2State extends State {
                 text: 'Fourth',
                 isSquare: true,
               ),
+              Indicator(
+                color: Colors.red, //color changing
+                text: 'Fourth',
+                isSquare: true,
+              ),
               SizedBox(
-                height: 18,
+                height: 20,
               ),
             ],
           ),
@@ -99,19 +104,22 @@ class PieChart2State extends State {
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
+    return List.generate(5, (i) {         // number of things will be added in circle as list
+
+      //unComment if u want on touched animation    
+      // final isTouched = i == touchedIndex;
+      const fontSize = 16.0; //final fontSize  = isTouched ? 25.0 : 16.0; un comment and remove who isnt commented on left
+      const radius = 50.0; //final radius = isTouched ? 60.0 : 50.0; un comment and remove who isnt commented on left
+
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
       switch (i) {
         case 0:
           return PieChartSectionData(
             color: Colors.blue, //color changing
-            value: 40,
+            value: 20,
             title: '40%',
             radius: radius,
-            titleStyle: TextStyle(
+            titleStyle: const TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
               color: Colors.white, //color changing text
@@ -120,11 +128,11 @@ class PieChart2State extends State {
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.yellow, //color changing
-            value: 30,
+            color: const Color(0xffFDD835), //color changing
+            value: 20,
             title: '30%',
             radius: radius,
-            titleStyle: TextStyle(
+            titleStyle: const TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
               color: Colors.white, //color changing text
@@ -134,10 +142,10 @@ class PieChart2State extends State {
         case 2:
           return PieChartSectionData(
             color: Colors.purple, //color changing
-            value: 15,
+            value: 20,
             title: '15%',
             radius: radius,
-            titleStyle: TextStyle(
+            titleStyle: const TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
               color: Colors.white, //color changing text
@@ -147,10 +155,23 @@ class PieChart2State extends State {
         case 3:
           return PieChartSectionData(
             color: Colors.green, //color changing
-            value: 15,
+            value: 20,
             title: '15%',
             radius: radius,
-            titleStyle: TextStyle(
+            titleStyle: const TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white, //color changing text
+              shadows: shadows,
+            ),
+          );
+          case 4:
+          return PieChartSectionData(
+            color: Colors.red, //color changing
+            value: 20,
+            title: '15%',
+            radius: radius,
+            titleStyle: const TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
               color: Colors.white, //color changing text

@@ -23,3 +23,16 @@ class ReportsView extends StatelessWidget {
     );
   }
 }
+
+
+//pie chart color palletes
+// Light Blue - #4FC3F7
+// Orange - #FF7043
+// Purple - #AB47BC
+// Green - #66BB6A
+// Yellow - #FFEB3B
+// Red - #EF5350
+// Teal - #26A69A
+// Pink - #EC407A
+// Lime Green - #CDDC39
+// Deep Purple - #7E57C2
