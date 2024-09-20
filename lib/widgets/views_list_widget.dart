@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saving_app/views/bottom_navigation_views.dart/budget_view.dart';
 import 'package:saving_app/views/bottom_navigation_views.dart/home_view.dart';
 import 'package:saving_app/views/bottom_navigation_views.dart/reports_view.dart';
 
@@ -10,7 +11,7 @@ class ViewsListWidget extends StatelessWidget {
     return const <Widget>[
       HomeView(),
       ReportsView(),
-      Center(child: Text('')),
+      BudgetView(),
       Center(child: Text('')),
       Center(child: Text('')),
     ][selectedIndex];
