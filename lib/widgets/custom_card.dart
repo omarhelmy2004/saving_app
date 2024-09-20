@@ -17,7 +17,7 @@ class CustomCard extends StatelessWidget {
       
       child: Container(
         
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
         child:  Column(
           crossAxisAlignment: crossAxisAlignment,
           children: widgets,),
