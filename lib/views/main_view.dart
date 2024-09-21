@@ -37,6 +37,7 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          
           title: CustomAppBar(
             text: pageNameOfSelectedIndex(selectedIndex),
             icon1: const Icon(
