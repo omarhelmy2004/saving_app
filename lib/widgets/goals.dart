@@ -19,14 +19,18 @@ class GoalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      // elevation: 0,
       surfaceTintColor: Theme.of(context).primaryColor,
+      // color: Theme.of(context).primaryColor,
+      
       shadowColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  const EdgeInsets.all(16),
+        // padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -63,11 +67,11 @@ class GoalCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: LinearProgressIndicator(
-                    
+                    borderRadius: BorderRadius.circular(8),
                     minHeight: 10,
                     value: progress,
                     backgroundColor: Colors.grey[700],
-                    valueColor:  AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
+                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
                 ),
                 const SizedBox(width: 10),
