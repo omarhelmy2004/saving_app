@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saving_app/widgets/custom_app_bar.dart';
 import 'package:saving_app/widgets/info_navigation_bar.dart';
 
-import 'package:saving_app/widgets/views_list_widget.dart';
+import 'package:saving_app/views/views_list_widget.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
