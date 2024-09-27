@@ -17,63 +17,62 @@ class BudgetItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0), // Increased padding for spacing
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             flex: 2, // Flex ratio for the text section
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  category,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18, // Larger font size for the category
-                    fontWeight: FontWeight.bold,
+            child: SizedBox(
+              width: 150,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    category,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '\$$budget budgeted',
-                  style: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 16, // Slightly larger font for the budget text
+                  const SizedBox(height: 4),
+                  Text(
+                    '\$$budget budgeted',
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Expanded(
-            flex: 2, // Flex ratio for the progress bar and spent amount
+            flex: 2, 
             child: Row(
               children: [
-                Expanded(
-                  child: Container(
-                    height: 8, // Slightly larger height for the progress bar
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey[700], // Background color for the progress bar
-                    ),
-                    child: Stack(
-                      children: [
-                        FractionallySizedBox(
-                          widthFactor: spentPercentage / 100,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.white, // Progress bar color
-                            ),
-                          ),
-                        ),
-                      ],
+                Container(
+                  width: 130, // Set your desired fixed width here
+                  height: 8, // Height for the progress bar
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey[700],
+                  ),
+                  child: FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: spentPercentage / 100,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12), // Increased spacing between the bar and amount
+                const SizedBox(width: 12), // Adjust this if needed
                 Text(
-                  '\$${spentAmount.toInt()}', // Rounded off the spent amount
+                  '\$${spentAmount.toInt()}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
