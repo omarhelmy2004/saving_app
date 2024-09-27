@@ -33,7 +33,7 @@ const GoalCard(
 
         const SizedBox(height: 20),
          
-        CustomRoundedWidget(onEdit: onEdit, text: 'Edit Goals',),
+        CustomRoundedWidget(onEdit: onEdit, text: 'Add Goal',),
       ],
     );
   }
