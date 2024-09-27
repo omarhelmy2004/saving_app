@@ -10,10 +10,10 @@ class ViewsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  <Widget>[
-      HomeView(),
-      ReportsView(),
-      BudgetView(),
-      Center(child: Text('')),
+      const HomeView(),
+      const ReportsView(),
+      const BudgetView(),
+      const Center(child: Text('')),
       GoalsView(onEdit: () {  },),
     ][selectedIndex];
   }
