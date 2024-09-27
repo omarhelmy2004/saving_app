@@ -21,6 +21,15 @@ class GoalsView extends StatelessWidget {
   progress: 0.4,
   amountLeft: 300,
 ),
+const GoalCard( 
+          totalAmount: 200,
+
+  title: 'New bike',
+  description: 'Save \$500 by September 30, 2023',
+ 
+  progress: 0.4,
+  amountLeft: 300,
+),
 
         const SizedBox(height: 20),
          
