@@ -57,7 +57,7 @@ class BudgetView extends StatelessWidget {
                   onPressed: () {
                     // Add button functionality here
                   },
-                  backgroundColor: Colors.grey[800]!, // Button background color for Add
+                  backgroundColor: Colors.blueAccent, // Button background color for Add
                   textColor: Colors.white, // Text color
                 ),
                 CustomButton(

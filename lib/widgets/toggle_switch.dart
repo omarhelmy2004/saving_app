@@ -12,7 +12,7 @@ class CustomToggleSwitch extends StatelessWidget {
         minWidth: 150.0, // Adjust this value as needed
         minHeight: 45,
         cornerRadius: 20.0,
-        activeBgColors: [
+        activeBgColors: const [
           [Colors.blueAccent], 
           [Colors.blueAccent], 
           [Colors.blueAccent]
