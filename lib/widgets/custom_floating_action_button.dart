@@ -6,18 +6,18 @@ class CustomFloatingActionButton extends StatelessWidget {
   final IconData icon;
 
   const CustomFloatingActionButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     this.backgroundColor = Colors.blueAccent,
     this.icon = Icons.add, // Default icon can be a plus sign
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: onPressed,
-      child: Icon(icon), // Use the provided icon
-      backgroundColor: backgroundColor, // Customize the background color
+      onPressed: onPressed, // Use the provided icon
+      backgroundColor: backgroundColor,
+      child: Icon(icon), // Customize the background color
     );
   }
 }
@@ -32,8 +32,8 @@ class CircularFabExample extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Custom Circular FAB Example'),
       ),
-      body: Center(
-        child: const Text('Press the button below!'),
+      body: const Center(
+        child: Text('Press the button below!'),
       ),
       floatingActionButton: CustomFloatingActionButton(
         onPressed: () {
