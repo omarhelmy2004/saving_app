@@ -1,6 +1,6 @@
-class TransactionsModel {
+class BudgetModel {
   String title;
   double budgetedPrice;
   double spentPrice;
-  TransactionsModel({required this.title, required this.budgetedPrice, required this.spentPrice});
+  BudgetModel({required this.title, required this.budgetedPrice, required this.spentPrice});
 }
