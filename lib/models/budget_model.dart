@@ -1,4 +1,6 @@
-class BudgetModel {
+import 'package:hive/hive.dart';
+
+class BudgetModel extends HiveObject {
   String title;
   double budgetedPrice;
   double spentPrice;
