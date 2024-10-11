@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:saving_app/constants/strings.dart';
 import 'package:saving_app/views/main_view.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox(kTransactionsBox);
+  await Hive.openBox(kBudgetsBox);
+  await Hive.openBox(kGoalsBox);
   runApp(const SavingApp());
 }
 
