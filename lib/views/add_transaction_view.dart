@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:saving_app/widgets/toggle_switch.dart';
 
 class AddTransactionView extends StatefulWidget {
   const AddTransactionView({super.key});
@@ -8,15 +10,150 @@ class AddTransactionView extends StatefulWidget {
 }
 
 class _AddTransactionViewState extends State<AddTransactionView> {
-  final _formKey = GlobalKey<FormState>();
-  String _title = '';
-  double _amount = 0.0;
-  String _category = '';
-  String _notes = '';
+  int _transactionType = 0; // 0 for Outcome, 1 for Income
   DateTime _selectedDate = DateTime.now();
+  String? _selectedCategory;
+  bool _isAutomatic = false;
+  String? _selectedFrequency;
+  final TextEditingController _descriptionController = TextEditingController(); // Renamed to description
+  final TextEditingController _amountController = TextEditingController();
 
-  // Function to show the date picker
-  Future<void> _selectDate(BuildContext context) async {
+  final List<String> _incomeCategories = ['Salary', 'Investment', 'Gift'];
+  final List<String> _outcomeCategories = ['Grocery', 'Rent', 'Entertainment'];
+  final List<String> _frequencies = ['Monthly', 'Weekly', 'Daily', 'Yearly']; // Default to Monthly
+
+  // Validation flags
+  bool _isAmountValid = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedCategory = _transactionType == 0 ? _outcomeCategories[0] : _incomeCategories[0]; // Default selection
+    _selectedFrequency = _frequencies[0]; // Default to Monthly
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add Transaction'),
+        backgroundColor: Colors.transparent, // Transparent background
+        elevation: 0, // No shadow
+        iconTheme: const IconThemeData(), // Set back button color
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomToggleSwitch(
+                labels: const ['Outcome', 'Income'],
+                initialIndex: _transactionType,
+                onToggle: (index) {
+                  setState(() {
+                    _transactionType = index;
+                    _selectedCategory = index == 0 ? _outcomeCategories[0] : _incomeCategories[0]; // Reset category when type changes
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                  border: OutlineInputBorder(),
+                  errorText: !_isAmountValid ? 'Please enter a valid amount.' : null, // Show error if invalid
+                ),
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                title: const Text('Date'),
+                subtitle: Text(DateFormat('yyyy-MM-dd').format(_selectedDate)),
+                trailing: const Icon(Icons.calendar_today),
+                onTap: _pickDate,
+              ),
+              const SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: _selectedCategory,
+                items: (_transactionType == 0 ? _outcomeCategories : _incomeCategories)
+                    .map((category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Category',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: InputDecoration(
+                  labelText: 'Description (optional)', // Renamed to Description
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 20),
+              SwitchListTile(
+                title: const Text('Automatic'),
+                value: _isAutomatic,
+                activeColor: Colors.white,
+                activeTrackColor: Colors.blueAccent,
+                onChanged: (value) {
+                  setState(() {
+                    _isAutomatic = value;
+                    if (!_isAutomatic) _selectedFrequency = null; // Reset frequency if disabled
+                  });
+                },
+              ),
+              if (_isAutomatic) ...[
+                const SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  value: _selectedFrequency,
+                  items: _frequencies
+                      .map((frequency) => DropdownMenuItem(
+                            value: frequency,
+                            child: Text(frequency),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedFrequency = value;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Frequency',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+              const SizedBox(height: 40),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _submitTransaction,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    foregroundColor: Colors.white, // White text
+                  ),
+                  child: const Text('Add Transaction'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
@@ -30,104 +167,45 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     }
   }
 
-  // Function to save the transaction (implement logic to save it in Hive or any database)
-  void _saveTransaction() {
-    if (_formKey.currentState?.validate() ?? false) {
-      _formKey.currentState?.save();
+  void _submitTransaction() {
+    // Access the input data
+    String description = _descriptionController.text; // Get description
+    double? amount = double.tryParse(_amountController.text);
 
-      // Implement saving logic here (e.g., using Hive)
-      print('Title: $_title');
-      print('Amount: $_amount');
-      print('Category: $_category');
-      print('Notes: $_notes');
-      print('Date: $_selectedDate');
+    // Validate the inputs
+    setState(() {
+      _isAmountValid = amount != null && amount > 0;
+    });
 
-      // Close the view after saving
-      Navigator.pop(context);
+    if (!_isAmountValid) {
+      return; // Return early if there are validation errors
     }
+
+    if (_selectedCategory == null) {
+      _showError('Please select a category.');
+      return;
+    }
+
+    if (_isAutomatic && _selectedFrequency == null) {
+      _showError('Please select a frequency for automatic transactions.');
+      return;
+    }
+
+    // Process the transaction here (e.g., save it using your models)
+    print('Transaction Type: ${_transactionType == 0 ? 'Outcome' : 'Income'}');
+    print('Description: $description'); // Print description
+    print('Amount: $amount');
+    print('Date: ${DateFormat('yyyy-MM-dd').format(_selectedDate)}');
+    print('Category: $_selectedCategory');
+    print('Is Automatic: $_isAutomatic');
+    if (_isAutomatic) {
+      print('Frequency: $_selectedFrequency');
+    }
+
+    // Perform additional actions like saving to the database and closing the view if needed
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Transaction'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Title'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a title';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _title = value ?? '';
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Amount'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || double.tryParse(value) == null) {
-                      return 'Please enter a valid amount';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _amount = double.tryParse(value ?? '0.0') ?? 0.0;
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Category'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a category';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _category = value ?? '';
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Notes'),
-                  onSaved: (value) {
-                    _notes = value ?? '';
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Date: ${_selectedDate.toLocal()}'.split(' ')[0],
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => _selectDate(context),
-                      child: const Text('Select Date'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: _saveTransaction,
-                  child: const Text('Save Transaction'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 }

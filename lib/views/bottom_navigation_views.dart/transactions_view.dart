@@ -7,10 +7,21 @@ class TransactionsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: ListViewPadding(children: [
-        CustomToggleSwitch()
-      ]),
+    return Scaffold(
+    
+      body: ListViewPadding(
+        children: [
+          CustomToggleSwitch(
+            labels: const ['All', 'Outcome', 'Income'],
+            initialIndex: 0, // Default to 'All'
+            onToggle: (index) {
+              // Handle the toggle switch change here
+              print("Selected index: $index");
+              // Add your logic based on the selected index
+            },
+          ),
+        ],
+      ),
     );
   }
 }
