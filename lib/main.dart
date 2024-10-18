@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:saving_app/constants/strings.dart';
+import 'package:saving_app/models/budget_model.dart';
+import 'package:saving_app/models/goals_model.dart';
+import 'package:saving_app/models/income_transaction_model.dart';
+import 'package:saving_app/models/outcome_transaction_model.dart';
 import 'package:saving_app/views/main_view.dart';
 
 void main() async {
@@ -8,6 +12,10 @@ void main() async {
   await Hive.openBox(kTransactionsBox);
   await Hive.openBox(kBudgetsBox);
   await Hive.openBox(kGoalsBox);
+  Hive.registerAdapter(BudgetModelAdapter());
+  Hive.registerAdapter(GoalsModelAdapter());
+  Hive.registerAdapter(IncomeModelAdapter());
+  Hive.registerAdapter(OutcomeModelAdapter());
   runApp(const SavingApp());
 }
 
