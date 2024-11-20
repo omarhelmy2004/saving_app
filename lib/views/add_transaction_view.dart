@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
+import 'package:saving_app/cubits/add_transaction_cubit/add_transaction_cubit.dart';
+import 'package:saving_app/models/income_transaction_model.dart';
+import 'package:saving_app/models/outcome_transaction_model.dart';
 import 'package:saving_app/widgets/toggle_switch.dart';
 
 class AddTransactionView extends StatefulWidget {
@@ -15,144 +20,180 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   String? _selectedCategory;
   bool _isAutomatic = false;
   String? _selectedFrequency;
-  final TextEditingController _descriptionController = TextEditingController(); // Renamed to description
+  final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
 
-  final List<String> _incomeCategories = ['Salary', 'Investment', 'Gift'];
-  final List<String> _outcomeCategories = ['Grocery', 'Rent', 'Entertainment'];
-  final List<String> _frequencies = ['Monthly', 'Weekly', 'Daily', 'Yearly']; // Default to Monthly
+  // Define categories here
+  final List<String> _incomeCategories = ['Salary', 'Investment', 'Gift']; // **Income categories**
+  final List<String> _outcomeCategories = ['Grocery', 'Rent', 'Entertainment']; // **Outcome categories**
+  final List<String> _frequencies = ['Monthly', 'Weekly', 'Daily', 'Yearly'];
 
-  // Validation flags
   bool _isAmountValid = true;
 
   @override
   void initState() {
     super.initState();
-    _selectedCategory = _transactionType == 0 ? _outcomeCategories[0] : _incomeCategories[0]; // Default selection
-    _selectedFrequency = _frequencies[0]; // Default to Monthly
+    // Set default category based on transaction type
+    _selectedCategory = _transactionType == 0 ? _outcomeCategories[0] : _incomeCategories[0];
+    _selectedFrequency = _frequencies[0];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Transaction'),
-        backgroundColor: Colors.transparent, // Transparent background
-        elevation: 0, // No shadow
-        iconTheme: const IconThemeData(), // Set back button color
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomToggleSwitch(
-                labels: const ['Outcome', 'Income'],
-                initialIndex: _transactionType,
-                onToggle: (index) {
-                  setState(() {
-                    _transactionType = index;
-                    _selectedCategory = index == 0 ? _outcomeCategories[0] : _incomeCategories[0]; // Reset category when type changes
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Amount',
-                  border: OutlineInputBorder(),
-                  errorText: !_isAmountValid ? 'Please enter a valid amount.' : null, // Show error if invalid
+    return BlocProvider(
+      create: (context) => AddTransactionCubit(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Add Transaction'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: const IconThemeData(),
+        ),
+        body: BlocConsumer<AddTransactionCubit, AddTransactionState>(
+          listener: (context, state) {
+            if (state is AddTransactionSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Transaction added successfully!')),
+              );
+              Navigator.pop(context); // Navigate back after success
+            } else if (state is AddTransactionFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.errMessage)),
+              );
+            }
+          },
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // **Transaction type toggle (Outcome or Income)**
+                    CustomToggleSwitch(
+                      labels: const ['Outcome', 'Income'],
+                      initialIndex: _transactionType,
+                      onToggle: (index) {
+                        setState(() {
+                          _transactionType = index;
+                          // Update categories based on transaction type
+                          _selectedCategory =
+                              index == 0 ? _outcomeCategories[0] : _incomeCategories[0];
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+
+                    // **Amount input field**
+                    TextFormField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Amount',
+                        border: const OutlineInputBorder(),
+                        errorText: !_isAmountValid ? 'Please enter a valid amount.' : null,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // **Date picker**
+                    ListTile(
+                      title: const Text('Date'),
+                      subtitle: Text(DateFormat('yyyy-MM-dd').format(_selectedDate)),
+                      trailing: const Icon(Icons.calendar_today),
+                      onTap: _pickDate, // **Calls date picker method**
+                    ),
+                    const SizedBox(height: 20),
+
+                    // **Category dropdown based on transaction type**
+                    DropdownButtonFormField<String>(
+                      value: _selectedCategory,
+                      items: (_transactionType == 0 ? _outcomeCategories : _incomeCategories)
+                          .map((category) => DropdownMenuItem(
+                                value: category,
+                                child: Text(category),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedCategory = value;
+                        });
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Category',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // **Description field**
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: const InputDecoration(
+                        labelText: 'Description (optional)',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // **Automatic switch and frequency**
+                    SwitchListTile(
+                      title: const Text('Automatic'),
+                      value: _isAutomatic,
+                      activeColor: Colors.white,
+                      activeTrackColor: Colors.blueAccent,
+                      onChanged: (value) {
+                        setState(() {
+                          _isAutomatic = value;
+                          if (!_isAutomatic) _selectedFrequency = null;
+                        });
+                      },
+                    ),
+                    if (_isAutomatic) ...[
+                      const SizedBox(height: 20),
+                      DropdownButtonFormField<String>(
+                        value: _selectedFrequency,
+                        items: _frequencies
+                            .map((frequency) => DropdownMenuItem(
+                                  value: frequency,
+                                  child: Text(frequency),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedFrequency = value;
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Frequency',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 40),
+
+                    // **Submit button**
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () => _submitTransaction(context), // **Handles submission**
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('Add Transaction'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              ListTile(
-                title: const Text('Date'),
-                subtitle: Text(DateFormat('yyyy-MM-dd').format(_selectedDate)),
-                trailing: const Icon(Icons.calendar_today),
-                onTap: _pickDate,
-              ),
-              const SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: _selectedCategory,
-                items: (_transactionType == 0 ? _outcomeCategories : _incomeCategories)
-                    .map((category) => DropdownMenuItem(
-                          value: category,
-                          child: Text(category),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCategory = value;
-                  });
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Category',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: InputDecoration(
-                  labelText: 'Description (optional)', // Renamed to Description
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SwitchListTile(
-                title: const Text('Automatic'),
-                value: _isAutomatic,
-                activeColor: Colors.white,
-                activeTrackColor: Colors.blueAccent,
-                onChanged: (value) {
-                  setState(() {
-                    _isAutomatic = value;
-                    if (!_isAutomatic) _selectedFrequency = null; // Reset frequency if disabled
-                  });
-                },
-              ),
-              if (_isAutomatic) ...[
-                const SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  value: _selectedFrequency,
-                  items: _frequencies
-                      .map((frequency) => DropdownMenuItem(
-                            value: frequency,
-                            child: Text(frequency),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedFrequency = value;
-                    });
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Frequency',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ],
-              const SizedBox(height: 40),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _submitTransaction,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    foregroundColor: Colors.white, // White text
-                  ),
-                  child: const Text('Add Transaction'),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
   }
 
+  // **Method to pick date**
   Future<void> _pickDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -167,45 +208,36 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     }
   }
 
-  void _submitTransaction() {
-    // Access the input data
-    String description = _descriptionController.text; // Get description
+  // **Method to submit transaction**
+  void _submitTransaction(BuildContext context) {
+    String description = _descriptionController.text;
     double? amount = double.tryParse(_amountController.text);
 
-    // Validate the inputs
     setState(() {
       _isAmountValid = amount != null && amount > 0;
     });
 
-    if (!_isAmountValid) {
-      return; // Return early if there are validation errors
+    if (!_isAmountValid || _selectedCategory == null) {
+      return; // **Prevent submission if validation fails**
     }
 
-    if (_selectedCategory == null) {
-      _showError('Please select a category.');
-      return;
+    final cubit = context.read<AddTransactionCubit>();
+
+    // **Call the appropriate cubit method based on transaction type**
+    if (_transactionType == 0) {
+      cubit.addOutComeTransaction(OutcomeModel(
+        title: description.isEmpty ? "No Description" : description,
+        amount: amount!,
+        category: _selectedCategory!,
+        date: _selectedDate,
+      ));
+    } else {
+      cubit.addInComeTransaction(IncomeModel(
+        title: description.isEmpty ? "No Description" : description,
+        amount: amount!,
+        source: _selectedCategory!,
+        date: _selectedDate,
+      ));
     }
-
-    if (_isAutomatic && _selectedFrequency == null) {
-      _showError('Please select a frequency for automatic transactions.');
-      return;
-    }
-
-    // Process the transaction here (e.g., save it using your models)
-    print('Transaction Type: ${_transactionType == 0 ? 'Outcome' : 'Income'}');
-    print('Description: $description'); // Print description
-    print('Amount: $amount');
-    print('Date: ${DateFormat('yyyy-MM-dd').format(_selectedDate)}');
-    print('Category: $_selectedCategory');
-    print('Is Automatic: $_isAutomatic');
-    if (_isAutomatic) {
-      print('Frequency: $_selectedFrequency');
-    }
-
-    // Perform additional actions like saving to the database and closing the view if needed
-  }
-
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 }
