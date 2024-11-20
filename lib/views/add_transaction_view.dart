@@ -93,6 +93,12 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                         border: const OutlineInputBorder(),
                         errorText: !_isAmountValid ? 'Please enter a valid amount.' : null,
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          // Validate amount whenever it changes
+                          _isAmountValid = double.tryParse(value) != null && double.tryParse(value)! > 0;
+                        });
+                      },
                     ),
                     const SizedBox(height: 20),
 
@@ -213,11 +219,11 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     String description = _descriptionController.text;
     double? amount = double.tryParse(_amountController.text);
 
-    setState(() {
-      _isAmountValid = amount != null && amount > 0;
-    });
-
     if (!_isAmountValid || _selectedCategory == null) {
+      // Show error message if validation fails
+      setState(() {
+        _isAmountValid = amount != null && amount > 0;
+      });
       return; // **Prevent submission if validation fails**
     }
 
@@ -226,14 +232,14 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     // **Call the appropriate cubit method based on transaction type**
     if (_transactionType == 0) {
       cubit.addOutComeTransaction(OutcomeModel(
-        title: description.isEmpty ? "No Description" : description,
+        title: description.isEmpty ? "" : description,
         amount: amount!,
         category: _selectedCategory!,
         date: _selectedDate,
       ));
     } else {
       cubit.addInComeTransaction(IncomeModel(
-        title: description.isEmpty ? "No Description" : description,
+        title: description.isEmpty ? "" : description,
         amount: amount!,
         source: _selectedCategory!,
         date: _selectedDate,
