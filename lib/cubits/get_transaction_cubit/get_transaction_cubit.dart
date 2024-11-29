@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:saving_app/cubits/get_transaction_cubit/get_transaction_state.dart';
-import 'package:saving_app/models/income_transaction_model.dart';
-import 'package:saving_app/models/outcome_transaction_model.dart';
 import 'package:saving_app/constants/strings.dart';
+import 'package:saving_app/models/transaction_model.dart';
+
 
 class GetTransactionsCubit extends Cubit<GetTransactionsState> {
   GetTransactionsCubit() : super(GetTransactionsInitial());
@@ -12,29 +12,34 @@ class GetTransactionsCubit extends Cubit<GetTransactionsState> {
     try {
       emit(GetTransactionsLoading());
 
-      // Open the shared Hive box for both income and outcome transactions
-      var transactionsBox = await Hive.openBox(kTransactionsBox);
+      // Open the Hive box
+      var transactionsBox = Hive.box<TransactionModel>(kTransactionsBox);
 
-      List<dynamic> transactions = transactionsBox.values.toList();
+      // Get all transactions from the box
+      List<TransactionModel> transactions =
+          transactionsBox.values.toList().cast<TransactionModel>();
 
       // Filter transactions based on the selected index
       if (selectedIndex == 1) {
-        // Filter for outcome transactions (assumes a way to distinguish between them)
-        transactions = transactions.where((t) => t is OutcomeModel).toList();
+        // Filter for outcome transactions (type == 0)
+        transactions =
+            transactions.where((transaction) => transaction.transactionType == 0).toList();
       } else if (selectedIndex == 2) {
-        // Filter for income transactions (assumes a way to distinguish between them)
-        transactions = transactions.where((t) => t is IncomeModel).toList();
-      } else {
-        // No filtering, show both income and outcome transactions
-        transactions = transactions;
+        // Filter for income transactions (type == 1)
+        transactions =
+            transactions.where((transaction) => transaction.transactionType == 1).toList();
       }
 
-      // Sort transactions if needed (e.g., by date)
-      transactions.sort((a, b) => b.date.compareTo(a.date));  // Assuming 'date' is a field in both models
+      // Sort transactions by date (newest first)
+      transactions.sort((a, b) => b.date.compareTo(a.date));
 
+      // Emit success state with the filtered and sorted transactions
       emit(GetTransactionsSuccess(transactions));
     } catch (e) {
-      emit(GetTransactionsFailure('Failed to fetch transactions: ${e.toString()}'));
+      // Emit failure state if an error occurs
+      emit(GetTransactionsFailure(
+          'Failed to fetch transactions: ${e.toString()}'));
     }
   }
 }
+

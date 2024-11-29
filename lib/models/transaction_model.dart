@@ -1,11 +1,11 @@
 import 'package:hive/hive.dart';
 
-part 'outcome_transaction_model.g.dart';
+part 'transaction_model.g.dart';
 
 @HiveType(typeId: 1)
-class OutcomeModel extends HiveObject {
+class TransactionModel extends HiveObject {
   @HiveField(0)
-  String title;
+  int transactionType; // 0 outcome, 1 income
 
   @HiveField(1)
   double amount;
@@ -16,14 +16,12 @@ class OutcomeModel extends HiveObject {
   @HiveField(3)
   DateTime date;
 
-  @HiveField(4)
-  
 
-  OutcomeModel({
-    required this.title,
+
+  TransactionModel({
+    required this.transactionType,
     required this.amount,
     required this.category,
     DateTime? date,
-  
   }) : date = date ?? DateTime.now();
 }

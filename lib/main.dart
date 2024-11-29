@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:saving_app/constants/strings.dart';
+import 'package:saving_app/constants/strings.dart'; 
 import 'package:saving_app/cubits/get_transaction_cubit/get_transaction_cubit.dart';
 import 'package:saving_app/models/budget_model.dart';
 import 'package:saving_app/models/goals_model.dart';
-import 'package:saving_app/models/income_transaction_model.dart';
-import 'package:saving_app/models/outcome_transaction_model.dart';
+import 'package:saving_app/models/transaction_model.dart';
 import 'package:saving_app/views/main_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,8 +17,8 @@ void main() async {
   
   Hive.registerAdapter(BudgetModelAdapter());
   Hive.registerAdapter(GoalsModelAdapter());
-  Hive.registerAdapter(IncomeModelAdapter());
-  Hive.registerAdapter(OutcomeModelAdapter());
+  Hive.registerAdapter(TransactionModelAdapter());
+ 
   await Hive.openBox(kTransactionsBox);
   await Hive.openBox(kBudgetsBox);
   await Hive.openBox(kGoalsBox);

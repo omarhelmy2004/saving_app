@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import 'package:saving_app/cubits/add_transaction_cubit/add_transaction_cubit.dart';
-import 'package:saving_app/models/income_transaction_model.dart';
-import 'package:saving_app/models/outcome_transaction_model.dart';
+import 'package:saving_app/models/transaction_model.dart';
 import 'package:saving_app/widgets/toggle_switch.dart';
 
 class AddTransactionView extends StatefulWidget {
@@ -18,15 +17,11 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   int _transactionType = 0; // 0 for Outcome, 1 for Income
   DateTime _selectedDate = DateTime.now();
   String? _selectedCategory;
-  bool _isAutomatic = false;
-  String? _selectedFrequency;
-  final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
 
   // Define categories here
-  final List<String> _incomeCategories = ['Salary', 'Investment', 'Gift']; // **Income categories**
-  final List<String> _outcomeCategories = ['Grocery', 'Rent', 'Entertainment']; // **Outcome categories**
-  final List<String> _frequencies = ['Monthly', 'Weekly', 'Daily', 'Yearly'];
+  final List<String> _incomeCategories = ['Salary', 'Investment', 'Gift'];
+  final List<String> _outcomeCategories = ['Grocery', 'Rent', 'Entertainment'];
 
   bool _isAmountValid = true;
 
@@ -35,7 +30,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     super.initState();
     // Set default category based on transaction type
     _selectedCategory = _transactionType == 0 ? _outcomeCategories[0] : _incomeCategories[0];
-    _selectedFrequency = _frequencies[0];
   }
 
   @override
@@ -130,52 +124,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    const SizedBox(height: 20),
-
-                    // **Description field**
-                    TextFormField(
-                      controller: _descriptionController,
-                      decoration: const InputDecoration(
-                        labelText: 'Description (optional)',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // **Automatic switch and frequency**
-                    SwitchListTile(
-                      title: const Text('Automatic'),
-                      value: _isAutomatic,
-                      activeColor: Colors.white,
-                      activeTrackColor: Colors.blueAccent,
-                      onChanged: (value) {
-                        setState(() {
-                          _isAutomatic = value;
-                          if (!_isAutomatic) _selectedFrequency = null;
-                        });
-                      },
-                    ),
-                    if (_isAutomatic) ...[
-                      const SizedBox(height: 20),
-                      DropdownButtonFormField<String>(
-                        value: _selectedFrequency,
-                        items: _frequencies
-                            .map((frequency) => DropdownMenuItem(
-                                  value: frequency,
-                                  child: Text(frequency),
-                                ))
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedFrequency = value;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                          labelText: 'Frequency',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ],
                     const SizedBox(height: 40),
 
                     // **Submit button**
@@ -216,7 +164,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
 
   // **Method to submit transaction**
   void _submitTransaction(BuildContext context) {
-    String description = _descriptionController.text;
     double? amount = double.tryParse(_amountController.text);
 
     if (!_isAmountValid || _selectedCategory == null) {
@@ -229,21 +176,12 @@ class _AddTransactionViewState extends State<AddTransactionView> {
 
     final cubit = context.read<AddTransactionCubit>();
 
-    // **Call the appropriate cubit method based on transaction type**
-    if (_transactionType == 0) {
-      cubit.addOutComeTransaction(OutcomeModel(
-        title: description.isEmpty ? "" : description,
-        amount: amount!,
-        category: _selectedCategory!,
-        date: _selectedDate,
-      ));
-    } else {
-      cubit.addInComeTransaction(IncomeModel(
-        title: description.isEmpty ? "" : description,
-        amount: amount!,
-        source: _selectedCategory!,
-        date: _selectedDate,
-      ));
-    }
+    // **Create a transaction and add it using Cubit**
+    cubit.addTransaction(TransactionModel(
+      amount: amount!,
+      category: _selectedCategory!,
+      date: _selectedDate,
+      transactionType: _transactionType == 0 ? 0 : 1, // Use 'Outcome' or 'Income' for type
+    ));
   }
 }
