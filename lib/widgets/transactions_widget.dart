@@ -36,13 +36,10 @@ class TransactionsWidget extends StatelessWidget {
           return ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: CustomRowWithTextAndLabel(
-                  topText: transactions[index].category,
-                   textLeft: transactions[index].date.toString(),
-                  textRight: '\$${transactions[index].amount}',
-                ),
+              return CustomRowWithTextAndLabel(
+                topText: transactions[index].category,
+                 textLeft: transactions[index].date.toString(),
+                textRight: '\$${transactions[index].amount}',
               );
             },
           );

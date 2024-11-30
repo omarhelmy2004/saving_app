@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
                          MaterialPageRoute(builder: (context) => AddTransactionView()),
 );
       }),
-      body:  ListViewPadding(
+      body:  ListView(
         children: [
           BoldText(text: 'Total Balance', fontSize: 32,),
           SizedBox(
@@ -50,7 +50,9 @@ class HomeView extends StatelessWidget {
           TextPadding(
             text: 'Recent Transactions',
           ),
-          Expanded(child: TransactionsWidget(selectedIndex: 0,))
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: TransactionsWidget(selectedIndex: 0,))
         ],
 
       ),
