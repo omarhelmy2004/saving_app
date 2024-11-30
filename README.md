@@ -16,7 +16,7 @@ The Expense Tracker App is a comprehensive financial management tool designed to
 ## Screenshots
 ![App Screenshot 1] (https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s1.png =300x300)
 
-![App Screenshot 2] (https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s2.png =300x300)
+![App Screenshot 2] (https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s2.png)
 
 ![App Screenshot 3] (https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s3.png =300x300)
 
