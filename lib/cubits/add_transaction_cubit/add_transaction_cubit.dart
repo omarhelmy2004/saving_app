@@ -12,7 +12,7 @@ class AddTransactionCubit extends Cubit<AddTransactionState> {
   Future<void> addTransaction(TransactionModel transactionModel) async {
     try {
       // Open the Hive box
-      var transactionsBox = Hive.box(kTransactionsBox);
+      var transactionsBox = Hive.box<TransactionModel>(kTransactionsBox);
 
       // Add the transaction to the box
       await transactionsBox.add(transactionModel);

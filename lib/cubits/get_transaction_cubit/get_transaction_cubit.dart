@@ -7,7 +7,7 @@ import 'package:saving_app/models/transaction_model.dart';
 
 class GetTransactionsCubit extends Cubit<GetTransactionsState> {
   GetTransactionsCubit() : super(GetTransactionsInitial());
-
+  List<TransactionModel> transactions = [];
   Future<void> getTransactions(int selectedIndex) async {
     try {
       emit(GetTransactionsLoading());
@@ -16,7 +16,7 @@ class GetTransactionsCubit extends Cubit<GetTransactionsState> {
       var transactionsBox = Hive.box<TransactionModel>(kTransactionsBox);
 
       // Get all transactions from the box
-      List<TransactionModel> transactions =
+      transactions =
           transactionsBox.values.toList().cast<TransactionModel>();
 
       // Filter transactions based on the selected index
@@ -29,10 +29,16 @@ class GetTransactionsCubit extends Cubit<GetTransactionsState> {
         transactions =
             transactions.where((transaction) => transaction.transactionType == 1).toList();
       }
+      else {
+         transactions =
+            transactions.toList();
+      }
 
       // Sort transactions by date (newest first)
       transactions.sort((a, b) => b.date.compareTo(a.date));
 
+      print('Transactions in box: ${transactionsBox.length}');
+      print('Transactions in list: ${transactions.length}');
       // Emit success state with the filtered and sorted transactions
       emit(GetTransactionsSuccess(transactions));
     } catch (e) {

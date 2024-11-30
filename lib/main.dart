@@ -19,7 +19,7 @@ void main() async {
   Hive.registerAdapter(GoalsModelAdapter());
   Hive.registerAdapter(TransactionModelAdapter());
  
-  await Hive.openBox(kTransactionsBox);
+  await Hive.openBox<TransactionModel>(kTransactionsBox);
   await Hive.openBox(kBudgetsBox);
   await Hive.openBox(kGoalsBox);
   runApp(const SavingApp());
