@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
                          MaterialPageRoute(builder: (context) => AddTransactionView()),
 );
       }),
-      body:  ListView(
+      body:  ListViewPadding(
         children: [
           BoldText(text: 'Total Balance', fontSize: 32,),
           SizedBox(

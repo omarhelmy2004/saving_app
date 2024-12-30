@@ -30,7 +30,10 @@ class TransactionsWidget extends StatelessWidget {
           List<TransactionModel> transactions = state.transactions;
           // List<TransactionModel> transactions = BlocProvider.of<GetTransactionsCubit>(context).transactions;
           if (transactions.isEmpty) {
-            return const Center(child: Text('No transactions available.'));
+            return Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Text('No transactions available.'),
+            );
           }
 
           return ListView.builder(
