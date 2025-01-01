@@ -129,7 +129,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     // **Submit button**
                     Center(
                       child: ElevatedButton(
-                        onPressed: () => _submitTransaction(context), // **Handles submission**
+                        onPressed: () { _submitTransaction(context);}, // **Handles submission**
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
                           foregroundColor: Colors.white,

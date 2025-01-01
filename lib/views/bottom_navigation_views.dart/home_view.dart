@@ -18,10 +18,8 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return    Scaffold(
       floatingActionButton: CustomFloatingActionButton(onPressed: (){
-        Navigator.push(
-                        context,
-                         MaterialPageRoute(builder: (context) => AddTransactionView()),
-);
+        Navigator.push(context,MaterialPageRoute(builder: (context) => AddTransactionView()),);
+        
       }),
       body:  ListViewPadding(
         children: [
@@ -51,7 +49,8 @@ class HomeView extends StatelessWidget {
             text: 'Recent Transactions',
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: 300,
+            // height: MediaQuery.of(context).size.height,
             child: TransactionsWidget(selectedIndex: 0,))
         ],
 

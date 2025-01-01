@@ -4,6 +4,7 @@ import 'package:saving_app/cubits/get_transaction_cubit/get_transaction_cubit.da
 import 'package:saving_app/cubits/get_transaction_cubit/get_transaction_state.dart';
 import 'package:saving_app/models/transaction_model.dart';
 import 'package:saving_app/widgets/custom_row_with_text_and_label.dart';
+import 'package:saving_app/widgets/empty_indicator.dart';
 
 class TransactionsWidget extends StatelessWidget {
   final int selectedIndex;
@@ -16,6 +17,7 @@ class TransactionsWidget extends StatelessWidget {
     BlocProvider.of<GetTransactionsCubit>(context).getTransactions(selectedIndex);
 
     return BlocBuilder<GetTransactionsCubit, GetTransactionsState>(
+      
       builder: (context, state) {
         if (state is GetTransactionsLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -31,8 +33,14 @@ class TransactionsWidget extends StatelessWidget {
           // List<TransactionModel> transactions = BlocProvider.of<GetTransactionsCubit>(context).transactions;
           if (transactions.isEmpty) {
             return Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Text('No transactions available.'),
+              padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Center(child: EmptyIndicator()),
+                ],
+              ),
             );
           }
 
@@ -54,3 +62,5 @@ class TransactionsWidget extends StatelessWidget {
     );
   }
 }
+
+
