@@ -11,7 +11,17 @@ class TransactionsWidget extends StatelessWidget {
   final int selectedIndex;
   final int? listViewLength;
   const TransactionsWidget({super.key, required this.selectedIndex,  this.listViewLength});
-
+  int listViewChecker(int transactionListCount){
+    if (listViewLength == null ) {
+      return transactionListCount;
+    }
+    else if (listViewLength! > transactionListCount){
+      return transactionListCount;
+    }
+    else {
+      return listViewLength!;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     // Fetch transactions when the widget is built
@@ -50,7 +60,7 @@ class TransactionsWidget extends StatelessWidget {
 
           return CustomScrollConfiguration(
             child: ListView.builder(
-              itemCount: listViewLength?? transactions.length,
+              itemCount: listViewChecker(transactions.length),
               itemBuilder: (context, index) {
                 return CustomRowWithTextAndLabel(
                   topText: transactions[index].category,

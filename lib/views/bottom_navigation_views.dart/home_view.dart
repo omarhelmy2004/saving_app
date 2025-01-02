@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saving_app/views/add_transaction_view.dart';
+import 'package:saving_app/widgets/balance_showing_widget.dart';
 import 'package:saving_app/widgets/big_icon_with_text_on_right.dart';
 import 'package:saving_app/widgets/bold_text.dart';
 import 'package:saving_app/widgets/boxed_custom_card.dart';
@@ -27,7 +28,7 @@ class HomeView extends StatelessWidget {
           SizedBox(
             height: 14,
           ),
-          BoldText(text: '\$20,000', fontSize: 40,), //variable for user price amounts
+          BalanceShowingWidget(), //variable for user price amounts
           SizedBox(
             height: 20,
           ),

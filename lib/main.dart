@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:saving_app/constants/strings.dart'; 
+import 'package:saving_app/constants/strings.dart';
+import 'package:saving_app/cubits/get_balance_cubit/get_balance_cubit.dart'; 
 import 'package:saving_app/cubits/get_transaction_cubit/get_transaction_cubit.dart';
+import 'package:saving_app/models/balance_model.dart';
 import 'package:saving_app/models/budget_model.dart';
 import 'package:saving_app/models/goals_model.dart';
 import 'package:saving_app/models/transaction_model.dart';
@@ -18,7 +20,9 @@ void main() async {
   Hive.registerAdapter(BudgetModelAdapter());
   Hive.registerAdapter(GoalsModelAdapter());
   Hive.registerAdapter(TransactionModelAdapter());
+  Hive.registerAdapter(BalanceAdapter());
  
+  await Hive.openBox<Balance>(kBalance);
   await Hive.openBox<TransactionModel>(kTransactionsBox);
   await Hive.openBox(kBudgetsBox);
   await Hive.openBox(kGoalsBox);
@@ -34,6 +38,9 @@ class SavingApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => GetTransactionsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => GetBalanceCubit(),
         ),
       ],
       
