@@ -5,6 +5,7 @@ import 'package:saving_app/cubits/get_transaction_cubit/get_transaction_state.da
 import 'package:saving_app/models/transaction_model.dart';
 import 'package:saving_app/widgets/custom_row_with_text_and_label.dart';
 import 'package:saving_app/widgets/empty_indicator.dart';
+import 'package:saving_app/widgets/scroll_configuration.dart';
 
 class TransactionsWidget extends StatelessWidget {
   final int selectedIndex;
@@ -38,21 +39,25 @@ class TransactionsWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Center(child: EmptyIndicator()),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: EmptyIndicator()),
                 ],
               ),
             );
           }
 
-          return ListView.builder(
-            itemCount: transactions.length,
-            itemBuilder: (context, index) {
-              return CustomRowWithTextAndLabel(
-                topText: transactions[index].category,
-                 textLeft: transactions[index].date.toString(),
-                textRight: '\$${transactions[index].amount}',
-              );
-            },
+          return CustomScrollConfiguration(
+            child: ListView.builder(
+              itemCount: transactions.length,
+              itemBuilder: (context, index) {
+                return CustomRowWithTextAndLabel(
+                  topText: transactions[index].category,
+                   textLeft: transactions[index].date.toString(),
+                  textRight: '\$${transactions[index].amount}',
+                );
+              },
+            ),
           );
         }
 
