@@ -51,7 +51,7 @@ class HomeView extends StatelessWidget {
           SizedBox(
             height: 300,
             // height: MediaQuery.of(context).size.height,
-            child: TransactionsWidget(selectedIndex: 0,))
+            child: TransactionsWidget(selectedIndex: 0, listViewLength: 4,))
         ],
 
       ),

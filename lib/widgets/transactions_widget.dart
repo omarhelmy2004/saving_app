@@ -9,7 +9,8 @@ import 'package:saving_app/widgets/scroll_configuration.dart';
 
 class TransactionsWidget extends StatelessWidget {
   final int selectedIndex;
-  const TransactionsWidget({super.key, required this.selectedIndex});
+  final int? listViewLength;
+  const TransactionsWidget({super.key, required this.selectedIndex,  this.listViewLength});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class TransactionsWidget extends StatelessWidget {
 
           return CustomScrollConfiguration(
             child: ListView.builder(
-              itemCount: transactions.length,
+              itemCount: listViewLength?? transactions.length,
               itemBuilder: (context, index) {
                 return CustomRowWithTextAndLabel(
                   topText: transactions[index].category,
