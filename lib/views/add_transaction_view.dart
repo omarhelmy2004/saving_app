@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import 'package:saving_app/cubits/add_transaction_cubit/add_transaction_cubit.dart';
+import 'package:saving_app/cubits/get_balance_cubit/get_balance_cubit.dart';
+import 'package:saving_app/cubits/get_transaction_cubit/get_transaction_cubit.dart';
 import 'package:saving_app/models/transaction_model.dart';
 import 'package:saving_app/widgets/toggle_switch.dart';
 
@@ -49,6 +51,8 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Transaction added successfully!')),
               );
+              BlocProvider.of<GetTransactionsCubit>(context).getTransactions(0);
+              BlocProvider.of<GetBalanceCubit>(context).getBalance(); // Update balance after adding transaction
               Navigator.pop(context); // Navigate back after success
             } else if (state is AddTransactionFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -183,5 +187,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
       date: _selectedDate,
       transactionType: _transactionType == 0 ? 0 : 1, // Use 'Outcome' or 'Income' for type
     ));
+    
+    
   }
 }

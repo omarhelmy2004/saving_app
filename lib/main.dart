@@ -7,6 +7,7 @@ import 'package:saving_app/models/balance_model.dart';
 import 'package:saving_app/models/budget_model.dart';
 import 'package:saving_app/models/goals_model.dart';
 import 'package:saving_app/models/transaction_model.dart';
+import 'package:saving_app/views/add_transaction_view.dart';
 import 'package:saving_app/views/main_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,6 +51,7 @@ class SavingApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           'HomePage': (context) => const MainView(),
+          kAddTransactionView : (context) => const AddTransactionView(),
         },
         initialRoute: 'HomePage',
       ),

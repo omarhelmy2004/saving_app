@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:saving_app/views/add_transaction_view.dart';
+import 'package:saving_app/constants/strings.dart';
+
 import 'package:saving_app/widgets/balance_showing_widget.dart';
 import 'package:saving_app/widgets/big_icon_with_text_on_right.dart';
 import 'package:saving_app/widgets/bold_text.dart';
@@ -19,7 +20,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return    Scaffold(
       floatingActionButton: CustomFloatingActionButton(onPressed: (){
-        Navigator.push(context,MaterialPageRoute(builder: (context) => AddTransactionView()),);
+        Navigator.pushNamed(context, kAddTransactionView);
         
       }),
       body:  ListViewPadding(

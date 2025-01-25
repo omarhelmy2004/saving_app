@@ -21,11 +21,11 @@ class GetTransactionsCubit extends Cubit<GetTransactionsState> {
 
       // Filter transactions based on the selected index
       if (selectedIndex == 1) {
-        // Filter for outcome transactions (type == 0)
+        // Filter for outcome transactions (type == 1)
         transactions =
             transactions.where((transaction) => transaction.transactionType == 0).toList();
       } else if (selectedIndex == 2) {
-        // Filter for income transactions (type == 1)
+        // Filter for income transactions (type == 2)
         transactions =
             transactions.where((transaction) => transaction.transactionType == 1).toList();
       }
