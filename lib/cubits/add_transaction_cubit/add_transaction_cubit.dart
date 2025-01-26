@@ -35,8 +35,11 @@ class AddTransactionCubit extends Cubit<AddTransactionState> {
          
          }
       
-
+        if (transactionModel.transactionType == 0) {
+          balance.totalBalance = totalBalance - transactionAmount;
+        } else {
         balance.totalBalance = totalBalance + transactionAmount;
+        }
 
         await balanceBox.add(balance);
 
