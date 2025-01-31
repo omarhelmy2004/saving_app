@@ -5,14 +5,14 @@ import 'package:saving_app/widgets/spending_progress_bar.dart';
 import 'package:saving_app/widgets/three_texts_spending_vertical.dart';
 
 class SpendingProgressWidget extends StatelessWidget {
-  const SpendingProgressWidget({super.key});
-
+  const SpendingProgressWidget({super.key, required this.spendingAmount});
+  final double spendingAmount;
   @override
   Widget build(BuildContext context) {
-    return const CustomCard(widgets: [
+    return  CustomCard(widgets: [
        Padding(
          padding: EdgeInsets.only(bottom: 5),
-         child: ThreeTextsSpendingVertical(topText: 'Spending', topTextFont: 21,spendingFont: 33, bottomTextFont:  16, spending: '1,203', bottomText: 'Last 30 Days'),
+         child: ThreeTextsSpendingVertical(topText: 'Spending', topTextFont: 21,spendingFont: 33, bottomTextFont:  16, spending: '${spendingAmount.toString()}' , bottomText: 'Last 30 Days'),
        ),
       
       SpendingProgress(title: 'Food', progress: 1),

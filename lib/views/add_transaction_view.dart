@@ -52,6 +52,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 const SnackBar(content: Text('Transaction added successfully!')),
               );
               BlocProvider.of<GetTransactionsCubit>(context).getTransactions(0);
+              BlocProvider.of<GetTransactionsCubit>(context).getSpending();
               BlocProvider.of<GetBalanceCubit>(context).getBalance(); // Update balance after adding transaction
               Navigator.pop(context); // Navigate back after success
             } else if (state is AddTransactionFailure) {

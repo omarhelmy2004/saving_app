@@ -7,7 +7,7 @@ import 'package:saving_app/widgets/bold_text.dart';
 import 'package:saving_app/widgets/boxed_custom_card.dart';
 import 'package:saving_app/widgets/custom_floating_action_button.dart';
 import 'package:saving_app/widgets/list_view_padding.dart';
-import 'package:saving_app/widgets/spending_progress.dart';
+import 'package:saving_app/widgets/spending_progress_builder.dart';
 import 'package:saving_app/widgets/text_padding.dart';
 import 'package:saving_app/widgets/transactions_widget.dart';
 
@@ -46,7 +46,7 @@ class HomeView extends StatelessWidget {
           TextPadding(
             text: 'Spending breakdown',
           ),
-          SpendingProgressWidget(),
+          SpendingProgressBuilder(),
           TextPadding(
             text: 'Recent Transactions',
           ),
@@ -60,5 +60,7 @@ class HomeView extends StatelessWidget {
     );
   }
 }
+
+
 
 
