@@ -13,6 +13,7 @@ class InfoBottomNavigationBar extends StatelessWidget {
     return CustomBottomNavigationBar(
       onItemTapped: onItemTapped,
       unselectedItemColor: Colors.grey[700],
+      
       selectedItemColor: Colors.white,
       items: iconsList,
     );
