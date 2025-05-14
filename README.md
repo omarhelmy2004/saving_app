@@ -14,11 +14,8 @@ The Expense Tracker App is a comprehensive financial management tool designed to
 - **Dart:** Primary programming language for Flutter development.
 
 ## Screenshots
-<img src="https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s1.png" width="300" />
-<img src="https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s2.png" width="300" />
-<img src="https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s3.png" width="300" />
-<img src="https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s4.png" width="300" />
-<img src="https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/s5.png" width="300" />
+<img src="https://github.com/omarhelmy2004/saving_app/blob/main/screenshots/video.webm" width="300" />
+
 
 ## License
 MIT License
